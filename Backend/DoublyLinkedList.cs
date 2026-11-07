@@ -1,6 +1,6 @@
 ﻿namespace Backend;
 
-public class DoublyLinkedList<T>
+public class DoublyLinkedList<T> where T : IComparable<T>
 {
     private DoubleNode<T>? _head;
     private DoubleNode<T>? _tail;
@@ -37,6 +37,46 @@ public class DoublyLinkedList<T>
         _tail.Next = newNode;
         newNode.Prev = _tail;
         _tail = newNode;
+    }
+
+    public void InsertInOrder(T data)
+    {
+        var newNode = new DoubleNode<T>(data);
+
+        if (_head == null)
+        {
+            _head = newNode;
+            _tail = newNode;
+            return;
+        }
+
+        var current = _head;
+
+        while (current != null && current.Data!.CompareTo(data) < 0) 
+        { 
+            current = current.Next;
+        }
+
+        if (current == _head) 
+        {
+            newNode.Next = _head;
+            _head.Prev = newNode;
+            _head = newNode;
+            return;
+        }
+
+        if (current == null) 
+        {
+            _tail!.Next = newNode;
+            newNode.Prev = _tail;
+            _tail = newNode;
+            return;
+        }
+
+        newNode.Next = current;
+        newNode.Prev = current.Prev;
+        current.Prev!.Next = newNode;
+        current.Prev = newNode;
     }
 
     public bool Contains(T data)
