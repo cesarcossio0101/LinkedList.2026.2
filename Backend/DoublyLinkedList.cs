@@ -247,7 +247,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
     }
 
-    public override string ToString()
+    public override string ToString() 
     {
         var output = string.Empty;
         var current = _head;
