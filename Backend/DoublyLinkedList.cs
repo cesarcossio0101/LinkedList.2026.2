@@ -79,6 +79,94 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         current.Prev = newNode;
     }
 
+    public void SortDescending() 
+    {
+        var current = _head;
+
+        while (current != null)
+        {
+            var next = current.Next;
+
+            current.Next = current.Prev;
+            current.Prev = next;
+
+            current = next;
+        }
+
+        var temp = _head;
+        _head = _tail;
+        _tail= temp;
+    }
+
+    public List<T> GetModes()
+    {
+        var modes = new List<T>();
+        var maxCount = 0;
+        var current = _head;
+
+        while (current != null)
+        {
+            var count = 0;
+            var search = _head;
+
+            while (search != null)
+            {
+                if (current.Data!.CompareTo(search.Data) == 0)
+                {
+                    count++;
+                }
+
+                search = search.Next;
+            }
+
+            if (count > maxCount)
+            {
+                maxCount = count;
+                modes.Clear();
+                modes.Add(current.Data!);
+            }
+
+            else if (count == maxCount && !modes.Contains(current.Data!))
+            {
+                modes.Add(current.Data!);
+            }
+
+            current = current.Next;
+        }
+
+        return modes;
+    }
+
+    public void DisplayOcurrences()
+    {
+        var current = _head;
+        var displayed = new List<T>();
+
+        while (current != null)
+        {
+            if (!displayed.Contains(current.Data!))
+            {
+                var count = 0;
+                var search = _head;
+
+                while(search != null) 
+                {
+                    if (current.Data!.CompareTo(search.Data!) == 0 )
+                    {
+                        count++;
+                    }
+
+                    search= search.Next;
+                }
+
+                Console.WriteLine($"{current.Data} {new string('*', count)}");
+                displayed.Add(current.Data!);
+            }
+
+            current= current.Next;
+        }
+    }
+
     public bool Contains(T data)
     {
         var current = _head;
@@ -96,28 +184,66 @@ public class DoublyLinkedList<T> where T : IComparable<T>
     public void Remove(T data)
     {
         var current = _head;
+
         while (current != null)
         {
-            if (current.Data!.Equals(data)) // Found
+            if (current.Data!.CompareTo(data) == 0 )
             {
-                if (current.Prev == null) // Beginning 
+                if (current.Prev == null) 
                 {
-                    current.Next!.Prev = null;
-                    _head = _head!.Next;
-                    return;
+                    _head = current.Next;
                 }
-                if (current.Next == null) // End 
+                else
                 {
-                    current.Prev!.Next = null;
-                    _tail = _tail!.Prev;
-                    return;
+                    current.Prev.Next = current.Next;
                 }
-                // Middle
-                current.Prev.Next = current.Next;
-                current.Next.Prev = current.Prev;
+
+                if (current.Next == null)
+                {
+                    _tail = current.Prev;
+                }
+                else
+                {
+                    current.Next.Prev = current.Prev;
+                }
+
                 return;
             }
+
             current = current.Next;
+        }
+    }
+
+    public void RemoveAll(T data) 
+    {
+        var current = _head;
+
+        while (current != null)
+        {
+            var next = current.Next;
+
+            if (current.Data!.CompareTo(data) == 0)
+            {
+                if (current.Prev == null)
+                {
+                    _head = current.Next;
+                }
+                else
+                {
+                    current.Prev.Next = current.Next;
+                }
+
+                if (current.Next == null)
+                {
+                    _tail = current.Prev;
+                }
+                else
+                {
+                    current.Next.Prev = current.Prev;
+                }
+            }
+
+            current = next;
         }
     }
 
