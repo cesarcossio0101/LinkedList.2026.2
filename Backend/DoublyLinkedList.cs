@@ -137,7 +137,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         return modes;
     }
 
-    public void DisplayOcurrences()
+    public void DisplayOccurrences()
     {
         var current = _head;
         var displayed = new List<T>();
@@ -172,7 +172,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         var current = _head;
         while (current != null)
         {
-            if (current.Data!.Equals(data))
+            if (current.Data!.CompareTo(data) == 0)
             {
                 return true;
             }
