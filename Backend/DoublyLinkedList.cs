@@ -7,8 +7,8 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
     public DoublyLinkedList()
     {
-        _head = null; // This line can be removed
-        _tail = null; // This line can be removed
+        _head = null; 
+        _tail = null; 
     }
 
     public void InsertAtBeginning(T data)
